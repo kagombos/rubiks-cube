@@ -54,81 +54,143 @@ class Cube {
     }
   }
   
-  void swap(CubePart part1, CubePart part2, boolean right) {
-    int mod = -1;
-    if (right) {
-      mod = 1;
-    }
+  void swap(CubePart part1, CubePart part2) {
     for (int a = 0; a < part1.squares.size(); a++) {
       part1.squares.set(a, part2.squares.get(a));
     }
-    part1.rotx += part1.posx;
-    part1.roty += part1.posy;
-    part1.rotz += part1.posz;
+    part1.rotations = part2.rotations;
+    if(part1.posx != 0) {
+      part1.rotations.add(0, new Rotation(Axis.X, part1.posx));
+    }
+    if(part1.posy != 0) {
+      part1.rotations.add(0, new Rotation(Axis.Y, part1.posy));
+    }
+    if(part1.posz != 0) {
+      part1.rotations.add(0, new Rotation(Axis.Z, part1.posz));
+    }
     part1.posx = 0;
     part1.posy = 0;
     part1.posz = 0;
   }
   
-  void rotateFace(Face face, boolean right) {
-    CubePart temp;
-    CubePart tempCorner;
-    CubePart tempEdge;
+  void rotate(Face face, boolean right) {
+    ArrayList<CubePart> corners = face.corners;
+    ArrayList<CubePart> edges = face.edges; 
+    if (!right) {
+      CubePart temp = corners.get(1);
+      corners.set(1, corners.get(3));
+      corners.set(3, temp);
+      temp = edges.get(1);
+      edges.set(1, edges.get(3));
+      edges.set(3, temp);
+    }
+    CubePart tempCorner = new Corner(corners.get(0).x, corners.get(0).y, corners.get(0).z, corners.get(0).squares.get(0), corners.get(0).squares.get(1), corners.get(0).squares.get(2));
+    tempCorner.rotations = corners.get(0).rotations;
+    tempCorner.posx = corners.get(0).posx;
+    tempCorner.posy = corners.get(0).posy; 
+    tempCorner.posz = corners.get(0).posz;
+    swap(corners.get(0), corners.get(1)); //<>//
+    swap(corners.get(1), corners.get(2)); //<>//
+    swap(corners.get(2), corners.get(3)); //<>//
+    swap(corners.get(3), tempCorner); //<>//
     
-    switch(face) {
+    CubePart tempEdge = new Edge(edges.get(0).x, edges.get(0).y, edges.get(0).z, edges.get(0).squares.get(0), edges.get(0).squares.get(1));
+    tempEdge.rotations = edges.get(0).rotations;
+    tempEdge.posx = edges.get(0).posx;
+    tempEdge.posy = edges.get(0).posy;
+    tempEdge.posz = edges.get(0).posz;
+    swap(edges.get(0), edges.get(1));
+    swap(edges.get(1), edges.get(2));
+    swap(edges.get(2), edges.get(3));
+    swap(edges.get(3), tempEdge);
+  }
+  
+  void rotateFace(FaceDir faceDir, boolean right) {
+    
+    switch(faceDir) {
       case F:
-        //corners
-        temp = cubeArray[0][0][0];
-        tempCorner = new Corner(temp.x, temp.y, temp.z, temp.squares.get(0), temp.squares.get(1), temp.squares.get(2));
-        tempCorner.posx = temp.posx;
-        tempCorner.posy = temp.posy;
-        tempCorner.posz = temp.posz;
-        swap(cubeArray[0][0][0], cubeArray[0][2][0], right);
-        swap(cubeArray[0][2][0], cubeArray[0][2][2], right);
-        swap(cubeArray[0][2][2], cubeArray[0][0][2], right);
-        swap(cubeArray[0][0][2], tempCorner, right);
-        //edges
-        temp = cubeArray[0][0][1];
-        tempEdge = new Edge(temp.x, temp.y, temp.z, temp.squares.get(0), temp.squares.get(1));
-        tempEdge.posx = temp.posx;
-        tempEdge.posy = temp.posy;
-        tempEdge.posz = temp.posz;
-        swap(cubeArray[0][0][1], cubeArray[0][1][0], right);
-        swap(cubeArray[0][1][0], cubeArray[0][2][1], right);
-        swap(cubeArray[0][2][1], cubeArray[0][1][2], right);
-        swap(cubeArray[0][1][2], tempEdge, right); 
+        Face face = new Face(
+          cubeArray[0][0][0],
+          cubeArray[0][2][0],
+          cubeArray[0][2][2],
+          cubeArray[0][0][2],
+          cubeArray[0][0][1],
+          cubeArray[0][1][0],
+          cubeArray[0][2][1],
+          cubeArray[0][1][2]);
+        rotate(face, right);
         break;
       case R:
-        //corners
-        temp = cubeArray[2][0][0];
-        tempCorner = new Corner(temp.x, temp.y, temp.z, temp.squares.get(0), temp.squares.get(1), temp.squares.get(2));
-        tempCorner.posx = temp.posx;
-        tempCorner.posy = temp.posy;
-        tempCorner.posz = temp.posz;
-        swap(cubeArray[2][0][0], cubeArray[2][2][0], right);
-        swap(cubeArray[2][2][0], cubeArray[0][2][0], right);
-        swap(cubeArray[0][2][0], cubeArray[0][0][0], right);
-        swap(cubeArray[0][0][0], tempCorner, right);
-        //edges
-        temp = cubeArray[1][0][0];
-        tempEdge = new Edge(temp.x, temp.y, temp.z, temp.squares.get(0), temp.squares.get(1));
-        tempEdge.posx = temp.posx;
-        tempEdge.posy = temp.posy;
-        tempEdge.posz = temp.posz;
-        swap(cubeArray[1][0][0], cubeArray[2][1][0], right);
-        swap(cubeArray[2][1][0], cubeArray[1][2][0], right);
-        swap(cubeArray[1][2][0], cubeArray[0][1][0], right);
-        swap(cubeArray[0][1][0], tempEdge, right); 
+        face = new Face(
+          cubeArray[2][0][0],
+          cubeArray[2][2][0],
+          cubeArray[0][2][0],
+          cubeArray[0][0][0],
+          cubeArray[1][0][0],
+          cubeArray[2][1][0],
+          cubeArray[1][2][0],
+          cubeArray[0][1][0]);
+        rotate(face, right);
+        break;
+      case B:
+        face = new Face(
+          cubeArray[2][0][2],
+          cubeArray[2][2][2],
+          cubeArray[2][2][0],
+          cubeArray[2][0][0],
+          cubeArray[2][0][1],
+          cubeArray[2][1][2],
+          cubeArray[2][2][1],
+          cubeArray[2][1][0]);
+        rotate(face, right);
+        break;
+      case L:
+        face = new Face(
+          cubeArray[0][0][2],
+          cubeArray[0][2][2],
+          cubeArray[2][2][2],
+          cubeArray[2][0][2],
+          cubeArray[1][0][2],
+          cubeArray[0][1][2],
+          cubeArray[1][2][2],
+          cubeArray[2][1][2]);
+        rotate(face, right);
+        break;
+        case U:
+        face = new Face(
+          cubeArray[0][2][0],
+          cubeArray[2][2][0],
+          cubeArray[2][2][2],
+          cubeArray[0][2][2],
+          cubeArray[0][2][1],
+          cubeArray[1][2][0],
+          cubeArray[2][2][1],
+          cubeArray[1][2][2]);
+        rotate(face, right);
+        break;
+        case D:
+        face = new Face(
+          cubeArray[2][0][0],
+          cubeArray[0][0][0],
+          cubeArray[0][0][2],
+          cubeArray[2][0][2],
+          cubeArray[2][0][1],
+          cubeArray[1][0][0],
+          cubeArray[0][0][1],
+          cubeArray[1][0][2]);
+        rotate(face, right);
         break;
       default:
-        println("whoa");
         break;
     }
-    println("swapped");
   }
   
   ArrayList<Rotatable> autoRotateParts(int x, int y, int z, boolean right) {
     ArrayList<Rotatable> list = new ArrayList<Rotatable>();
+    int mod = 1;
+    if (!right) {
+      mod = -1;
+    }
     for (int a = 0; a < 3; a++) {
       CubePart[][] face = cubeArray[a];
       if ((z == 0) || (z == 1 && a == 0) || (z == -1 && a == 2)) {
@@ -139,7 +201,7 @@ class Cube {
               CubePart part = row[c];
               if ((x == 0) || (x == 1 && c == 0) || (x == -1 && c == 2)) {
                 if (part != null) {
-                  list.add(new Rotatable(part, x, y, z, right));
+                  list.add(new Rotatable(part, mod*x, mod*y, mod*z, right));
                 }
               }
             }
@@ -150,17 +212,26 @@ class Cube {
     return list;
   }
   
-  ArrayList<Rotatable> autoRotate(Face face, boolean right) {
+  ArrayList<Rotatable> autoRotate(FaceDir face, boolean right) {
     ArrayList<Rotatable> list = new ArrayList<Rotatable>();
     switch(face) {
       case F:
         list = autoRotateParts(0, 0, 1, right);
+        break;
+      case B:
+        list = autoRotateParts(0, 0, -1, right);
         break;
       case R:
         list = autoRotateParts(1, 0, 0, right);
         break;
       case L:
         list = autoRotateParts(-1, 0, 0, right);
+        break;
+      case D:
+        list = autoRotateParts(0, 1, 0, right);
+        break;
+      case U:
+        list = autoRotateParts(0, -1, 0, right);
         break;
       default:
         break;

@@ -7,6 +7,10 @@ class Edge extends CubePart {
     this.rotx = 0;
     this.roty = 0;
     this.rotz = 0;
+    this.squares = new ArrayList<Square>();
+    for (Square square : squares) {
+      this.squares.add(square);
+    }
     this.squares = squares;
   }
   
@@ -29,19 +33,19 @@ class Edge extends CubePart {
     rotateY(PI*posy);
     rotateZ(PI*posz);
     
-    pushMatrix();
-    
     translate(100*x, 100*y, 100*z);
     
-    rotateX(PI*rotx);
-    rotateY(PI*roty);
-    rotateZ(PI*rotz);
+    for (Rotation rot : rotations) {
+      showRotation(rot);
+    }
+    
+    //rotateX(PI*rotx);
+    //rotateY(PI*roty);
+    //rotateZ(PI*rotz);
     
     squares.get(0).display();
     squares.get(1).display();
 
-    popMatrix();
-    
     popMatrix();
   }
 }

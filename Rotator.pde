@@ -31,7 +31,7 @@ class Rotatable {
 class Rotator {
   ArrayList<Rotatable> list;
   boolean running;
-  Face face;
+  FaceDir face;
   boolean right;
   
   Rotator() {
@@ -40,7 +40,7 @@ class Rotator {
     face = null;
   }
   
-  void add(ArrayList<Rotatable> newList, Face face) {
+  void add(ArrayList<Rotatable> newList, FaceDir face) {
     for (Rotatable newRot : newList) {
       if (!running) {
         list.add(newRot);
@@ -49,21 +49,16 @@ class Rotator {
       }
     }
     running = true;
-    println(list.size());
   }
   
   boolean rotate(Cube cube) {
     Iterator<Rotatable> iter = list.iterator();
     while(iter.hasNext()) {
       Rotatable rotated = iter.next();
-      int mod = 1;
-      if (!rotated.right) {
-        mod = -1;
-      }
-      float rotx = (float)(mod * rotated.x)/(rotated.max * 2);
-      float roty = (float)(mod * rotated.y)/(rotated.max * 2);
-      float rotz = (float)(mod * rotated.z)/(rotated.max * 2);
-      rotated.part.autoRotate(rotx, roty, rotz);
+      float posx = (float)(rotated.x)/(rotated.max * 2);
+      float posy = (float)(rotated.y)/(rotated.max * 2);
+      float posz = (float)(rotated.z)/(rotated.max * 2);
+      rotated.part.autoRotate(posx, posy, posz);
       rotated.count++;
       if(rotated.count >= rotated.max) {
         iter.remove();
