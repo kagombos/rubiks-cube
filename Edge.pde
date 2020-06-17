@@ -1,13 +1,16 @@
 class Edge extends CubePart {
-  ArrayList<Square> squares;
   
   Edge(float x, float y, float z, ArrayList<Square> squares) {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.rotx = x;
-    this.roty = y;
-    this.rotz = z;
+    this.rotx = 0;
+    this.roty = 0;
+    this.rotz = 0;
+    this.squares = new ArrayList<Square>();
+    for (Square square : squares) {
+      this.squares.add(square);
+    }
     this.squares = squares;
   }
   
@@ -15,62 +18,12 @@ class Edge extends CubePart {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.rotx = x;
-    this.roty = y;
-    this.rotz = z;
+    this.rotx = 0;
+    this.roty = 0;
+    this.rotz = 0;
     this.squares = new ArrayList<Square>();
     this.squares.add(square1);
     this.squares.add(square2);
-  }
-  
-  private void displayX() {
-    float rot = -rotz*abs(roty + rotz - 2)/4 ;
-    pushMatrix();
-    translate(100*x, 100*y, 100*z);
-    rotateZ(PI*0.5);
-    rotateY(PI*rot);
-    squares.get(0).display();
-    popMatrix();
-    
-    pushMatrix();
-    translate(100*x, 100*y, 100*z);
-    rotateZ(PI*0.5);
-    rotateY(PI*(rot + 0.5));
-    squares.get(1).display();
-    popMatrix();
-  }
-  
-  private void displayY() {
-    float rot = -rotz*abs(rotx + rotz - 2)/4 ;
-    
-    pushMatrix();
-    translate(100*x, 100*y, 100*z);
-    rotateY(PI*rot);
-    squares.get(0).display();
-    popMatrix();
-    
-    pushMatrix();
-    translate(100*x, 100*y, 100*z);
-    rotateY(PI*(rot + 0.5));
-    squares.get(1).display();
-    popMatrix();
-  }
-  
-  private void displayZ() {
-    float rot = -roty*abs(roty + rotx - 2)/4 ;
-    pushMatrix();
-    translate(100*x, 100*y, 100*z);
-    rotateX(-PI*0.5);
-    rotateY(PI*rot);
-    squares.get(0).display();
-    popMatrix();
-    
-    pushMatrix();
-    translate(100*x, 100*y, 100*z);
-    rotateX(-PI*0.5);
-    rotateY(PI*(rot + 0.5));
-    squares.get(1).display();
-    popMatrix();
   }
   
   void display() {
@@ -80,16 +33,19 @@ class Edge extends CubePart {
     rotateY(PI*posy);
     rotateZ(PI*posz);
     
-    if (rotx == 0) {
-      this.displayX();
-    }
-    if (roty == 0) {
-      this.displayY();
-    }
-    if (rotz == 0) {
-      this.displayZ();
+    translate(100*x, 100*y, 100*z);
+    
+    for (Rotation rot : rotations) {
+      showRotation(rot);
     }
     
+    //rotateX(PI*rotx);
+    //rotateY(PI*roty);
+    //rotateZ(PI*rotz);
+    
+    squares.get(0).display();
+    squares.get(1).display();
+
     popMatrix();
   }
 }

@@ -3,6 +3,7 @@ int currentX;
 int currentY;
 int staticX = -1;
 int staticY = -1;
+int zoom;
 
 float currentRot;
 float rot = -1;
@@ -39,7 +40,7 @@ void draw() {
     for (CubePart[] column : cube.cubeArray[0]) {
       for (CubePart part : column) {
         if (part != null) {
-          part.rotate(0, 0, currentRot/400);
+          //part.rotate(0, 0, currentRot/400);
         }
       }
     }
@@ -47,6 +48,7 @@ void draw() {
   
   background(200, 200, 150);
   translate(width/2, height/2);
+  translate(0, 0, zoom);
   rotateX(PI * currentY/500);
   rotateY(PI * currentX/500);
   
@@ -63,6 +65,17 @@ void mouseReleased() {
   staticY = -1;
   rot = -1;
 }
+
+void mouseWheel(MouseEvent event) {
+  int e = event.getCount();
+  if(zoom < 200 || e == 1) {
+    zoom -= e * 100;
+  }
+}
+
+int selectX = 0;
+int selectY = 0;
+int selectZ = 0;
 
 void keyPressed() {
   if (keyCode == LEFT) {
@@ -88,18 +101,54 @@ void keyPressed() {
     }
   }
   if (keyCode == UP) {
-    rotator.add(cube.autoRotate(Face.F, true), Face.F);
+    rotator.add(cube.autoRotate(FaceDir.F, true), FaceDir.F);
   }
   if (keyCode == DOWN) {
-    rotator.add(cube.autoRotate(Face.F, false), Face.F);
+    rotator.add(cube.autoRotate(FaceDir.F, false), FaceDir.F);
   }
   if (key == '1') {
-    rotator.add(cube.autoRotate(Face.F, true), Face.F);
+    rotator.add(cube.autoRotate(FaceDir.F, true), FaceDir.F);
   }
   if (key == '2') {
-    rotator.add(cube.autoRotate(Face.R, true), Face.R);
+    rotator.add(cube.autoRotate(FaceDir.R, true), FaceDir.R);
   }
   if (key == '3') {
-    rotator.add(cube.autoRotate(Face.L, true), Face.L);
+    rotator.add(cube.autoRotate(FaceDir.B, true), FaceDir.B);
+  }
+  if (key == '4') {
+    rotator.add(cube.autoRotate(FaceDir.L, true), FaceDir.L);
+  }
+  if (key == '5') {
+    rotator.add(cube.autoRotate(FaceDir.U, true), FaceDir.U);
+  }
+  if (key == '6') {
+    rotator.add(cube.autoRotate(FaceDir.D, true), FaceDir.D);
+  }
+  if (key == '7') {
+    CubePart temp = cube.cubeArray[selectZ][selectY][selectX];
+    println("selectX: " + selectX);
+    println("selectY: " + selectY);
+    println("selectZ: " + selectZ);
+    for (Rotation rot : temp.rotations) {
+      println(rot.axis + " " + rot.value);
+    }
+  }
+  if (key == '8') {
+    selectX++;
+    if (selectX > 2) {
+      selectX = 0;
+    }
+  }
+  if (key == '9') {
+    selectY++;
+    if (selectY > 2) {
+      selectY = 0;
+    }
+  }
+  if (key == '0') {
+    selectZ++;
+    if (selectZ > 2) {
+      selectZ = 0;
+    }
   }
 }

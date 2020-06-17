@@ -1,5 +1,4 @@
 class Centre extends CubePart {
-  Square square;
   
   Centre(float x, float y, float z, Square square) {
     this.x = x;
@@ -8,7 +7,8 @@ class Centre extends CubePart {
     this.rotx = x;
     this.roty = y;
     this.rotz = z;
-    this.square = square;
+    this.squares = new ArrayList<Square>();
+    this.squares.add(square);
   }
 
   
@@ -20,16 +20,7 @@ class Centre extends CubePart {
     rotateZ(PI*posz);
     
     translate(100*x, 100*y, 100*z);
-    if (rotx != 0) {
-      rotateY(PI*rotx/2);
-    }
-    if (roty != 0) {
-      rotateX(-PI*roty/2);
-    }
-    if (rotz != 0) {
-      rotateX(PI*(1 - rotz)/2);
-    }
-    square.display();
+    squares.get(0).display();
   
     popMatrix();
   }
