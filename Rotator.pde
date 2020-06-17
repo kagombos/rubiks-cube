@@ -67,7 +67,6 @@ class Rotator {
       rotated.count++;
       if(rotated.count >= rotated.max) {
         iter.remove();
-        rotated.part.set(rotated.part.x, rotated.part.y, rotated.part.z);
       }
     }
     if (list.size() == 0 && face != null) {
