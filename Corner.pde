@@ -1,6 +1,7 @@
 class Corner extends CubePart {
   
   Corner(float x, float y, float z, ArrayList<Square> squares) {
+    super();
     this.x = x;
     this.y = y;
     this.z = z;
@@ -15,6 +16,7 @@ class Corner extends CubePart {
   }
   
   Corner(float x, float y, float z, Square square1, Square square2, Square square3) {
+    super();
     this.x = x;
     this.y = y;
     this.z = z;
@@ -40,10 +42,7 @@ class Corner extends CubePart {
       showRotation(rot);
     }
     
-    //rotateZ(PI*rotz);
-    //rotateY(PI*roty);
-    //rotateX(PI*rotx);
-    
+    innerCube.display();
     squares.get(0).display();
     squares.get(1).display();
     squares.get(2).display();

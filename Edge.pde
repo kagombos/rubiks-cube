@@ -1,6 +1,7 @@
 class Edge extends CubePart {
   
   Edge(float x, float y, float z, ArrayList<Square> squares) {
+    super();
     this.x = x;
     this.y = y;
     this.z = z;
@@ -15,6 +16,7 @@ class Edge extends CubePart {
   }
   
   Edge(float x, float y, float z, Square square1, Square square2) {
+    super();
     this.x = x;
     this.y = y;
     this.z = z;
@@ -39,10 +41,7 @@ class Edge extends CubePart {
       showRotation(rot);
     }
     
-    //rotateX(PI*rotx);
-    //rotateY(PI*roty);
-    //rotateZ(PI*rotz);
-    
+    innerCube.display();
     squares.get(0).display();
     squares.get(1).display();
 

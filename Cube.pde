@@ -4,12 +4,12 @@ class Cube {
   Cube() {
     cubeArray = new CubePart[3][3][3];
     
-    Square white = new Square(0, 0, color(255, 255, 255), 0, 0);
-    Square red = new Square(0, 0, color(255, 0, 0), 0, 0.5);
-    Square orange = new Square(0, 0, color(255, 165, 0), 0, 1);
-    Square yellow = new Square(0, 0, color(255, 255, 0), 0, -0.5);
-    Square blue = new Square(0, 0, color(0, 0, 255), 0.5, 0);
-    Square green = new Square(0, 0, color(0, 255, 0), -0.5, 0);
+    Square white = new Square(0, 0, color(255, 255, 255), 0, 0, 50);
+    Square red = new Square(0, 0, color(255, 0, 0), 0, 0.5, 50);
+    Square orange = new Square(0, 0, color(255, 165, 0), 0, 1, 50);
+    Square yellow = new Square(0, 0, color(255, 255, 0), 0, -0.5, 50);
+    Square blue = new Square(0, 0, color(0, 0, 255), 0.5, 0, 50);
+    Square green = new Square(0, 0, color(0, 255, 0), -0.5, 0, 50);
     
     cubeArray[0][0][0] = new Corner(1, 1, 1, white, green, red);
     cubeArray[0][0][1] = new Edge(0, 1, 1, white, green);
@@ -89,10 +89,10 @@ class Cube {
     tempCorner.posx = corners.get(0).posx;
     tempCorner.posy = corners.get(0).posy; 
     tempCorner.posz = corners.get(0).posz;
-    swap(corners.get(0), corners.get(1)); //<>//
-    swap(corners.get(1), corners.get(2)); //<>//
-    swap(corners.get(2), corners.get(3)); //<>//
-    swap(corners.get(3), tempCorner); //<>//
+    swap(corners.get(0), corners.get(1)); //<>// //<>//
+    swap(corners.get(1), corners.get(2)); //<>// //<>//
+    swap(corners.get(2), corners.get(3)); //<>// //<>//
+    swap(corners.get(3), tempCorner); //<>// //<>//
     
     CubePart tempEdge = new Edge(edges.get(0).x, edges.get(0).y, edges.get(0).z, edges.get(0).squares.get(0), edges.get(0).squares.get(1));
     tempEdge.rotations = edges.get(0).rotations;

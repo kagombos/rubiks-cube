@@ -1,6 +1,7 @@
 class Centre extends CubePart {
   
   Centre(float x, float y, float z, Square square) {
+    super();
     this.x = x;
     this.y = y;
     this.z = z;
@@ -20,6 +21,7 @@ class Centre extends CubePart {
     rotateZ(PI*posz);
     
     translate(100*x, 100*y, 100*z);
+    innerCube.display();
     squares.get(0).display();
   
     popMatrix();

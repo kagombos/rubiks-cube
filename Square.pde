@@ -3,14 +3,14 @@ class Square {
   float x, y;
   float rotx, roty;
   
-  Square(float x, float y, color col, float rotx, float roty) {
+  Square(float x, float y, color col, float rotx, float roty, int size) {
     square = createShape();
     square.beginShape();
     square.fill(col);
-    square.vertex(-50, -50,  50);
-    square.vertex( 50, -50,  50);
-    square.vertex( 50,  50,  50);
-    square.vertex(-50,  50,  50);
+    square.vertex(-size, -size,  size);
+    square.vertex( size, -size,  size);
+    square.vertex( size,  size,  size);
+    square.vertex(-size,  size,  size);
     square.endShape(CLOSE);
     this.x = x;
     this.y = y;

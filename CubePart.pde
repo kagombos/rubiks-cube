@@ -1,17 +1,14 @@
-class CubePartWrapper {
-  CubePart cubePart;
-  
-  CubePartWrapper(CubePart cubePart) {
-    this.cubePart = cubePart;
-  }
-}
-
 class CubePart {
   float x, y, z;
   float posx = 0, posy = 0, posz = 0;
   float rotx, roty, rotz;
   ArrayList<Square> squares;
   ArrayList<Rotation> rotations = new ArrayList<Rotation>();
+  InnerCube innerCube;
+  
+  CubePart() {
+    this.innerCube = new InnerCube();
+  }
   
   void display() {};
   //void rotate(float x, float y, float z) {
