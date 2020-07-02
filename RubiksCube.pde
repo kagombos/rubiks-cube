@@ -129,9 +129,13 @@ void keyPressed() {
     println("selectX: " + selectX);
     println("selectY: " + selectY);
     println("selectZ: " + selectZ);
+    println("rotx: " + temp.rotx);
+    println("roty: " + temp.roty);
+    println("rotz: " + temp.rotz);
     for (Rotation rot : temp.rotations) {
       println(rot.axis + " " + rot.value);
     }
+    //println("front color: " + hex(temp.getForward()));
   }
   if (key == '8') {
     selectX++;
@@ -150,5 +154,10 @@ void keyPressed() {
     if (selectZ > 2) {
       selectZ = 0;
     }
+  }
+  if (key == 'a') {
+    CubePart temp = cube.cubeArray[selectZ][selectY][selectX];
+    temp.squares.get(0).rotx = 0;
+    temp.squares.get(0).roty = 0;
   }
 }
